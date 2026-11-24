@@ -27,11 +27,12 @@ _Descrever em poucas linhas a ideia do jogo e o objetivo do jogador._
 
 | Nome | GitHub | E-mail / login CIn |
 |---|---|---|
-| | | |
-| | | |
-| | | |
-| | | |
-| | | |
+| Tiago Leal | Sttoch | tlbs |
+| Pedro Arthur | pacszin | pacs |
+| Davi Ferro | dcf-dev | dcf |
+| Ryan Medeiros | ryanmedeirosp | rmp4 |
+| Daniel Barros | dsbl2 | dsbl2 |
+| Lucas Rangel | lucasnobre903 | lrn2 |
 
 ---
 
