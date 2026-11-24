@@ -4,8 +4,8 @@ O enunciado recomenda registrar **todas as decisões tomadas pelo grupo** em um 
 
 | Data | Decisão | Motivo | Quem decidiu |
 |---|---|---|---|
-| | Tema do jogo: | | |
-| | Os 3 tipos de coletáveis: | | |
-| | Biblioteca gráfica: PyGame? | | |
-| | Ferramenta de tarefas (Trello, Notion, GitHub Projects): | | |
-| | Canal de comunicação (WhatsApp, Discord): | | |
+| - | Tema do jogo: Combate PvP medieval | - | Daniel/Davi/Lucas |
+| - | Os 3 tipos de coletáveis: Equipamento, Vida, Moedas e Velocidade | Jogabilidade | Pedro Arthur/Ryan/Tiago |
+| - | Biblioteca gráfica: PyGame | Recomendação dos Monitores | O grupo |
+| - | Ferramenta de tarefas: Github | Recomendação dos Monitores | O grupo |
+| - | Canal de comunicação (WhatsApp, Discord): | Conveniência | O grupo |
