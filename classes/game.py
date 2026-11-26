@@ -1,29 +1,31 @@
-"""
-game.py — classe Game
+import pygame
+from constants import FPS, MAP_SIZE, WINDOW_SIZE
+from classes.arena import Arena
+from classes.player import Player
 
-O QUE FAZER AQUI
-----------------
-Criar a classe `Game`, que organiza a partida inteira. Assim o main.py fica
-pequeno e toda a lógica fica dentro de uma classe (Orientação a Objetos).
+class Game:
+    def __init__(self):
+        pygame.init()
+        self.screen = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
+        pygame.display.set_caption('Arena PvP - Projeto IP')
+        self.world = pygame.Surface((MAP_SIZE, MAP_SIZE))
+        self.clock = pygame.time.Clock()
+        self.arena = Arena()
+        self.players = pygame.sprite.Group(
+            Player((128, 440), (45, 155, 255), (pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d)),
+            Player((1138, 477), (255, 65, 75), (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT))
+        )
+        self.running = True
 
-Atributos sugeridos:
-- screen          -> janela do pygame
-- clock           -> controla o FPS (constants.py)
-- player          -> instância de Player
-- collectibles    -> lista com coletáveis dos 3 tipos espalhados pela tela
-- enemies         -> lista de Enemy (opcional)
-- counter         -> instância de CollectionCounter
-- hud             -> instância de Hud
-- running         -> True enquanto o jogo estiver aberto
-- (opcional) state -> "menu", "playing", "game_over"
-
-Métodos sugeridos:
-- __init__()           -> inicializa o pygame, cria a janela e os objetos
-- spawn_collectibles() -> cria os coletáveis em posições na tela (aleatórias ou fixas)
-- handle_events()      -> trata eventos (fechar janela, pausar, teclas de menu)
-- update()             -> atualiza o jogador/inimigos e verifica colisões:
-                          se o jogador encostar num coletável -> coletavel.on_collect()
-                          + counter.add(coletavel.kind) + remover da lista
-- draw()               -> limpa a tela, desenha fundo, coletáveis, jogador, inimigos e o HUD
-- run()                -> loop principal: handle_events -> update -> draw, até running = False
-"""
+    def run(self):
+        while self.running:
+            dt = min(self.clock.tick(FPS) / 1000, 0.1)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                    self.running = False
+            self.players.update(pygame.key.get_pressed(), dt, self.arena)
+            self.arena.draw(self.world)
+            self.players.draw(self.world)
+            self.screen.blit(pygame.transform.smoothscale(self.world, self.screen.get_size()), (0, 0))
+            pygame.display.flip()
+        pygame.quit()
