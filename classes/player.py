@@ -1,23 +1,34 @@
-"""
-player.py — classe Player
+import math
+import pygame
+from constants import PLAYER_SIZE, PLAYER_SPEED
 
-O QUE FAZER AQUI
-----------------
-Criar a classe `Player`, herdando de `GameObject`.
-É o objeto que o usuário controla (requisito mínimo: "o usuário controla um objeto").
+class Player(pygame.sprite.Sprite):
+    def __init__(self, position, color, controls):
+        super().__init__()
+        self.image = pygame.Surface((PLAYER_SIZE, PLAYER_SIZE))
+        self.image.fill(color)
+        self.rect = self.image.get_rect(center=position)
+        self.position = pygame.Vector2(self.rect.topleft)
+        self.controls = controls
+        self.speed = PLAYER_SPEED
 
-Atributos sugeridos:
-- speed           -> velocidade de movimento (valor vindo de constants.py)
-- (opcional) vida, direção, sprite/animação atual
+    def update(self, keys, dt, arena):
+        up, down, left, right = self.controls
+        direction = pygame.Vector2(int(keys[right])-int(keys[left]),
+                                   int(keys[down])-int(keys[up]))
+        if direction.length_squared() > 0:
+            direction = direction.normalize()
+        movement = direction * self.speed * dt
+        # Small steps avoid crossing thin walls even during a slow frame.
+        steps = max(1, math.ceil(max(abs(movement.x), abs(movement.y)) / 4))
+        for _ in range(steps):
+            self.move_axis(movement.x / steps, 0, arena)
+            self.move_axis(0, movement.y / steps, arena)
 
-Métodos sugeridos:
-- handle_input()  -> lê o teclado (setas ou WASD) e define para onde o jogador vai
-- move()          -> atualiza x/y sem deixar o jogador sair da tela (usar clamp de utils/helpers.py)
-- update()        -> chama handle_input() e move() a cada quadro
-- draw(screen)    -> herdado de GameObject (só sobrescrever se tiver animação)
-
-O que NÃO fazer aqui:
-- Não contar os coletáveis dentro do Player. A contagem é responsabilidade de
-  CollectionCounter (classes/collection_counter.py). O Player só se move;
-  quem verifica a colisão com os coletáveis é a classe Game.
-"""
+    def move_axis(self, dx, dy, arena):
+        candidate = self.position + pygame.Vector2(dx, dy)
+        rect = self.rect.copy()
+        rect.topleft = (round(candidate.x), round(candidate.y))
+        if not arena.collides(rect):
+            self.position = candidate
+            self.rect = rect
