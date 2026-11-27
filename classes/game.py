@@ -1,31 +1,47 @@
 import pygame
-from constants import FPS, MAP_SIZE, WINDOW_SIZE
-from classes.arena import Arena
-from classes.player import Player
+from pygame.locals import *
+from constants import LARGURA, ALTURA, FPS, TITULO_JOGO
+from utils.asset_loader import imagem_fundo
+from jogador import Jogador
 
 class Game:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
-        pygame.display.set_caption('Arena PvP - Projeto IP')
-        self.world = pygame.Surface((MAP_SIZE, MAP_SIZE))
-        self.clock = pygame.time.Clock()
-        self.arena = Arena()
-        self.players = pygame.sprite.Group(
-            Player((128, 440), (45, 155, 255), (pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d)),
-            Player((1138, 477), (255, 65, 75), (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT))
-        )
-        self.running = True
 
-    def run(self):
-        while self.running:
-            dt = min(self.clock.tick(FPS) / 1000, 0.1)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                    self.running = False
-            self.players.update(pygame.key.get_pressed(), dt, self.arena)
-            self.arena.draw(self.world)
-            self.players.draw(self.world)
-            self.screen.blit(pygame.transform.smoothscale(self.world, self.screen.get_size()), (0, 0))
-            pygame.display.flip()
-        pygame.quit()
+        # Tela e tela de fundo
+        self.tela = pygame.display.set_mode((LARGURA, ALTURA))
+        pygame.display.set_caption(TITULO_JOGO)
+        self.fundo = imagem_fundo
+        self.clock = pygame.time.Clock()
+
+        # Criação das sprites (so criei os jogadores por enquanto)
+        self.jogador1 = Jogador((50, 50), (K_w, K_s, K_a, K_d))
+        self.jogador2 = Jogador((560, 400), (K_UP, K_DOWN, K_LEFT, K_RIGHT))
+        self.todas_as_sprites = pygame.sprite.Group()
+        self.todas_as_sprites.add(self.jogador1, self.jogador2) 
+        
+        self.rodando = True
+
+
+    def eventos(self):
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                self.rodando = False
+
+    def desenhar(self):
+        self.tela.blit(self.fundo, (0, 0))
+        self.todas_as_sprites.draw(self.tela)
+        pygame.display.flip()
+
+    def update(self):
+        self.todas_as_sprites.update()
+
+    def executar(self):
+        while self.rodando:
+            self.eventos()
+
+            if self.rodando:
+                self.update()
+                self.desenhar()
+
+            self.clock.tick(FPS)

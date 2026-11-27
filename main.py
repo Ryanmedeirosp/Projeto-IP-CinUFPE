@@ -1,4 +1,7 @@
-from classes.game import Game
+import pygame
+from game import Game
 
-if __name__ == '__main__':
-    Game().run()
+jogo = Game()
+jogo.executar()
+
+pygame.quit()

@@ -1,19 +1,13 @@
-"""
-asset_loader.py — carregamento de arquivos da pasta assets/
+import pygame
+import os
+from constants import PASTA_IMAGENS, PASTA_SONS, PASTA_MUSICAS
 
-O QUE FAZER AQUI
-----------------
-Centralizar o carregamento de imagens, sons, músicas e fontes, montando o
-caminho com as constantes de constants.py (IMAGES_PATH, SOUNDS_PATH...).
+# Moldes de exemplo
+# Carregar imagem
+imagem_fundo = pygame.image.load(os.path.join(PASTA_IMAGENS, "Labirinto Verde em Pixel Art.png")).convert.alpha()
 
-Funções sugeridas:
-- load_image(name, size=None) -> carrega assets/images/<name> e, se pedido, redimensiona
-- load_sound(name)            -> carrega assets/sounds/<name>
-- play_music(name, loop=True) -> toca assets/music/<name> em loop
-- load_font(name, size)       -> carrega assets/fonts/<name>
+# Carregar som
+som_1 = pygame.mixer.Sound(os.path.join(PASTA_SONS, "som.wav"))
 
-Dicas:
-- Montar os caminhos com os.path.join (funciona no Windows, Linux e Mac).
-- Carregar cada arquivo UMA vez (no início), não a cada quadro do loop,
-  senão o jogo fica lento.
-"""
+# Carregar musica de fundo
+musica_1 = pygame.mixer.music.load(os.path.join(PASTA_MUSICAS, "musica.mp3"))
