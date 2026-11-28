@@ -2,8 +2,8 @@ import os
 
 # Tela
 TITULO_JOGO = 'Arena PvP - Projeto IP'
-ALTURA = 640
-LARGURA = 480
+ALTURA = 480
+LARGURA = 640
 FPS = 60
 
 # Atributos do jogador

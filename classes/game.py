@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from constants import LARGURA, ALTURA, FPS, TITULO_JOGO
 from utils.asset_loader import imagem_fundo
-from jogador import Jogador
+from .jogador import Jogador
 
 class Game:
     def __init__(self):
